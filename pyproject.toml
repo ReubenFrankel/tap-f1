@@ -1,0 +1,55 @@
+[tool.poetry]
+name = "tap-f1"
+version = "0.0.1"
+description = "`tap-f1` is a Singer tap for F1, built with the Meltano Singer SDK."
+readme = "README.md"
+authors = ["Reuben Frankel <reubenfrankel@gmail.com>"]
+keywords = [
+    "ELT",
+    "F1",
+]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4"
+singer-sdk = { version="~=0.33.0" }
+fs-s3fs = { version = "~=1.1.1", optional = true }
+requests = "~=2.31.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=7.4.0"
+singer-sdk = { version="~=0.33.0", extras = ["testing"] }
+
+[tool.poetry.extras]
+s3 = ["fs-s3fs"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_unused_configs = true
+
+[tool.ruff]
+ignore = [
+    "ANN101",  # missing-type-self
+    "ANN102",  # missing-type-cls
+]
+select = ["ALL"]
+src = ["tap_f1"]
+target-version = "py37"
+
+
+[tool.ruff.flake8-annotations]
+allow-star-arg-any = true
+
+[tool.ruff.isort]
+known-first-party = ["tap_f1"]
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[build-system]
+requires = ["poetry-core>=1.0.8"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+# CLI declaration
+tap-f1 = 'tap_f1.tap:TapF1.cli'
