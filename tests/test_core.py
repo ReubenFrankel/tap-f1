@@ -1,14 +1,14 @@
 """Tests standard tap features using the built-in SDK tests library."""
 
-import datetime
+from datetime import date
 
 from singer_sdk.testing import get_tap_test_class
 
 from tap_f1.tap import TapF1
 
 SAMPLE_CONFIG = {
-    "start_date": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d"),
-    # TODO: Initialize minimal tap config
+    # latest GP with a sprint race: https://www.formula1.com/en/racing/2023/Brazil.html
+    "start_date": date(2023, 11, 5).isoformat(),
 }
 
 
