@@ -1,6 +1,8 @@
 """Stream type classes for tap-f1."""
 
 
+from datetime import date
+
 from singer_sdk import typing as th
 
 from tap_f1.client import F1Stream
@@ -23,6 +25,7 @@ class SeasonsStream(F1Stream):
 
     name = "seasons"
     primary_keys = ["season"]
+    replication_key = "season"
     path = "/seasons.json"
     records_jsonpath = "MRData.SeasonTable.Seasons[*]"
 
@@ -32,6 +35,11 @@ class SeasonsStream(F1Stream):
     ).to_dict()
 
     def get_child_context(self, record, context):
+        start_date = date.fromisoformat(self.config["start_date"])
+
+        if start_date.year > int(record["season"]):
+            return None
+
         return {"season": record["season"]}
 
 
@@ -106,6 +114,7 @@ class RacesStream(F1Stream):
     parent_stream_type = SeasonsStream
     name = "races"
     primary_keys = ["season", "round"]
+    replication_key = "date"
     path = "/{season}.json"
     records_jsonpath = "MRData.RaceTable.Races[*]"
 
@@ -171,6 +180,12 @@ class RacesStream(F1Stream):
     ).to_dict()
 
     def get_child_context(self, record, context):
+        value = self.get_starting_replication_key_value(context)
+        start_date = date.fromisoformat(value)
+
+        if start_date > date.fromisoformat(record["date"]):
+            return None
+
         return {
             "season": record["season"],
             "round": record["round"],

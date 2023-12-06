@@ -1,5 +1,8 @@
 """F1 tap class."""
 
+from datetime import date
+
+import singer_sdk.typing as th
 from singer_sdk import Tap
 
 from tap_f1 import streams
@@ -24,6 +27,14 @@ class TapF1(Tap):
     """F1 tap class."""
 
     name = "tap-f1"
+
+    config_jsonschema = th.PropertiesList(
+        th.Property(
+            "start_date",
+            th.DateType,
+            default=date(date.today().year, 1, 1).isoformat(),
+        ),
+    ).to_dict()
 
     def discover_streams(self):
         return [stream_type(self) for stream_type in STREAM_TYPES]
