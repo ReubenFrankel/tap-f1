@@ -4,11 +4,15 @@
 from datetime import date
 
 from singer_sdk import typing as th
+from typing_extensions import override
 
 from tap_f1.client import F1Stream
 
 
 class SpeedUnitType(th.StringType):
+    """Speed unit type."""
+
+    @override
     @th.DefaultInstanceProperty
     def type_dict(self):
         return {
@@ -24,7 +28,7 @@ class SeasonsStream(F1Stream):
     """Define seasons stream."""
 
     name = "seasons"
-    primary_keys = ["season"]
+    primary_keys = ("season",)
     replication_key = "season"
     path = "/seasons.json"
     records_jsonpath = "MRData.SeasonTable.Seasons[*]"
@@ -34,6 +38,7 @@ class SeasonsStream(F1Stream):
         th.Property("url", th.URIType),
     ).to_dict()
 
+    @override
     def get_child_context(self, record, context):
         start_date = date.fromisoformat(self.config["start_date"])
 
@@ -48,7 +53,7 @@ class CircuitsStream(F1Stream):
 
     parent_stream_type = SeasonsStream
     name = "circuits"
-    primary_keys = ["circuitId"]
+    primary_keys = ("circuitId",)
     path = "/{season}/circuits.json"
     records_jsonpath = "MRData.CircuitTable.Circuits[*]"
 
@@ -74,7 +79,7 @@ class DriversStream(F1Stream):
     parent_stream_type = SeasonsStream
     context_key = "Driver"
     name = "drivers"
-    primary_keys = ["driverId"]
+    primary_keys = ("driverId",)
     path = "/{season}/drivers.json"
     records_jsonpath = "MRData.DriverTable.Drivers[*]"
 
@@ -96,7 +101,7 @@ class ConstructorsStream(F1Stream):
     parent_stream_type = SeasonsStream
     context_key = "Constructor"
     name = "constructors"
-    primary_keys = ["constructorId"]
+    primary_keys = ("constructorId",)
     path = "/{season}/constructors.json"
     records_jsonpath = "MRData.ConstructorTable.Constructors[*]"
 
@@ -113,7 +118,7 @@ class RacesStream(F1Stream):
 
     parent_stream_type = SeasonsStream
     name = "races"
-    primary_keys = ["season", "round"]
+    primary_keys = ("season", "round")
     replication_key = "date"
     path = "/{season}.json"
     records_jsonpath = "MRData.RaceTable.Races[*]"
@@ -179,6 +184,7 @@ class RacesStream(F1Stream):
         ),
     ).to_dict()
 
+    @override
     def get_child_context(self, record, context):
         value = self.get_starting_replication_key_value(context)
         start_date = date.fromisoformat(value)
@@ -197,7 +203,7 @@ class QualifyingResultsStream(F1Stream):
 
     parent_stream_type = RacesStream
     name = "qualifying_results"
-    primary_keys = ["season", "round", "number"]
+    primary_keys = ("season", "round", "number")
     path = "/{season}/{round}/qualifying.json"
     records_jsonpath = "MRData.RaceTable.Races[*].QualifyingResults[*]"
 
@@ -239,7 +245,7 @@ class SprintResultsStream(F1Stream):
 
     parent_stream_type = RacesStream
     name = "sprints_results"
-    primary_keys = ["season", "round", "number"]
+    primary_keys = ("season", "round", "number")
     path = "/{season}/{round}/sprint.json"
     records_jsonpath = "MRData.RaceTable.Races[*].SprintResults[*]"
 
@@ -310,7 +316,7 @@ class RaceResultsStream(F1Stream):
 
     parent_stream_type = RacesStream
     name = "race_results"
-    primary_keys = ["season", "round", "number"]
+    primary_keys = ("season", "round", "number")
     path = "/{season}/{round}/results.json"
     records_jsonpath = "MRData.RaceTable.Races[*].Results[*]"
 
@@ -375,6 +381,7 @@ class RaceResultsStream(F1Stream):
         ),
     ).to_dict()
 
+    @override
     def get_child_context(self, record, context):
         return {
             **super().get_child_context(record, context),
@@ -387,7 +394,7 @@ class LapsStream(F1Stream):
 
     parent_stream_type = RaceResultsStream
     name = "laps"
-    primary_keys = ["season", "round", "driverId", "number"]
+    primary_keys = ("season", "round", "driverId", "number")
     path = "/{season}/{round}/drivers/{driverId}/laps.json"
     records_jsonpath = "MRData.RaceTable.Races[*].Laps[*]"
 
@@ -403,7 +410,7 @@ class LapsStream(F1Stream):
                     th.Property("driverId", th.StringType),
                     th.Property("position", th.StringType),
                     th.Property("time", th.StringType),
-                )
+                ),
             ),
         ),
     ).to_dict()
@@ -414,7 +421,7 @@ class PitStopsStream(F1Stream):
 
     parent_stream_type = RacesStream
     name = "pit_stops"
-    primary_keys = ["season", "round", "driverId", "stop"]
+    primary_keys = ("season", "round", "driverId", "stop")
     path = "/{season}/{round}/pitstops.json"
     records_jsonpath = "MRData.RaceTable.Races[*].PitStops[*]"
 
@@ -434,7 +441,7 @@ class DriverStandingsStream(F1Stream):
 
     parent_stream_type = RacesStream
     name = "driver_standings"
-    primary_keys = ["season", "round", "driverId", "position"]
+    primary_keys = ("season", "round", "driverId", "position")
     path = "/{season}/{round}/driverStandings.json"
     records_jsonpath = "MRData.StandingsTable.StandingsLists[*].DriverStandings[*]"
 
@@ -467,11 +474,12 @@ class DriverStandingsStream(F1Stream):
                     th.Property("url", th.URIType),
                     th.Property("name", th.StringType),
                     th.Property("nationality", th.StringType),
-                )
+                ),
             ),
         ),
     ).to_dict()
 
+    @override
     def post_process(self, row, context):
         # driverId forms part of primary key
         row["driverId"] = row["Driver"]["driverId"]
@@ -484,7 +492,7 @@ class ConstructorStandingsStream(F1Stream):
 
     parent_stream_type = RacesStream
     name = "constructor_standings"
-    primary_keys = ["season", "round", "constructorId", "position"]
+    primary_keys = ("season", "round", "constructorId", "position")
     path = "/{season}/{round}/constructorStandings.json"
     records_jsonpath = "MRData.StandingsTable.StandingsLists[*].ConstructorStandings[*]"
 
@@ -507,6 +515,7 @@ class ConstructorStandingsStream(F1Stream):
         ),
     ).to_dict()
 
+    @override
     def post_process(self, row, context):
         # constructorId forms part of primary key
         row["constructorId"] = row["Constructor"]["constructorId"]

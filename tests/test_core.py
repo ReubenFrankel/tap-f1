@@ -17,6 +17,3 @@ TestTapF1 = get_tap_test_class(
     tap_class=TapF1,
     config=SAMPLE_CONFIG,
 )
-
-
-# TODO: Create additional tests as appropriate for your tap.
