@@ -1,6 +1,5 @@
 """Pagination classes for tap-f1."""
 
-
 from singer_sdk.pagination import BaseOffsetPaginator
 from typing_extensions import override
 
