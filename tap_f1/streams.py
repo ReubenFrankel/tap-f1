@@ -1,6 +1,5 @@
 """Stream type classes for tap-f1."""
 
-
 from datetime import date
 
 from singer_sdk import typing as th
