@@ -9,7 +9,7 @@ from tap_f1.pagination import F1Paginator
 class F1Stream(RESTStream):
     """F1 stream class."""
 
-    url_base = "https://ergast.com/api/f1"
+    url_base = "http://api.jolpi.ca/ergast/f1"
     _limit = 1000
 
     @override
