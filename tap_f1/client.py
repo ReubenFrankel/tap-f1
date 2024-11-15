@@ -10,7 +10,7 @@ class F1Stream(RESTStream):
     """F1 stream class."""
 
     url_base = "https://api.jolpi.ca/ergast/f1"
-    _limit = 1000
+    _limit = 100
 
     @override
     def get_new_paginator(self):
