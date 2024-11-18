@@ -34,6 +34,13 @@ jobs:
       run: |
         poetry env use ${{ matrix.python-version }}
         poetry install
+    - name: Cache HTTP responses
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/tap-f1.sqlite
+        key: http-responses-${{ github.run_id }}
+        restore-keys: |
+          http-responses-
     - name: Test with pytest
       run: |
         poetry run pytest
