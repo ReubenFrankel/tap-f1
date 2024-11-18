@@ -1,5 +1,8 @@
 """REST client handling, including F1Stream base class."""
 
+from datetime import timedelta
+
+from requests_cache import CachedSession
 from singer_sdk.streams import RESTStream
 from typing_extensions import override
 
@@ -11,6 +14,15 @@ class F1Stream(RESTStream):
 
     url_base = "https://ergast.com/api/f1"
     _limit = 1000
+
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialise the F1 stream."""
+        super().__init__(*args, **kwargs)
+        self._requests_session = CachedSession(
+            self.tap_name,
+            use_cache_dir=True,
+            expire_after=timedelta(days=1),
+        )
 
     @override
     def get_new_paginator(self):

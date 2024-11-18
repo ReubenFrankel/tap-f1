@@ -15,6 +15,7 @@ python = "^3.8"
 singer-sdk = { version="~=0.42.1" }
 fs-s3fs = { version = "~=1.1.1", optional = true }
 requests = "~=2.32.3"
+requests-cache = "^1.2.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=7.4.0"
@@ -30,6 +31,8 @@ warn_unused_configs = true
 [tool.ruff]
 ignore = [
     "ANN001",  # missing-type-function-argument
+    "ANN002",  # missing-type-args
+    "ANN003",  # missing-type-kwargs
     "ANN101",  # missing-type-self
     "ANN102",  # missing-type-cls
     "ANN201",  # missing-return-type-undocumented-public-function
