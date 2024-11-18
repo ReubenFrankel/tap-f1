@@ -38,7 +38,9 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ~/.cache/tap-f1.sqlite
-        key: http-responses
+        key: http-responses-${{ github.run_id }}
+        restore-keys: |
+          http-responses-
     - name: Test with pytest
       run: |
         poetry run pytest
