@@ -1,5 +1,7 @@
 """REST client handling, including F1Stream base class."""
 
+from datetime import timedelta
+
 from requests_cache import CachedSession
 from singer_sdk.streams import RESTStream
 from typing_extensions import override
@@ -19,7 +21,7 @@ class F1Stream(RESTStream):
         self._requests_session = CachedSession(
             self.tap_name,
             use_cache_dir=True,
-            cache_control=True,
+            expire_after=timedelta(days=1),
         )
 
     @override
