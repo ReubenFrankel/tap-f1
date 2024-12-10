@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "tap-f1",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "program": "tap_f1",
