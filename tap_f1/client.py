@@ -12,8 +12,8 @@ from tap_f1.pagination import F1Paginator
 class F1Stream(RESTStream):
     """F1 stream class."""
 
-    url_base = "https://ergast.com/api/f1"
-    _limit = 1000
+    url_base = "https://api.jolpi.ca/ergast/f1"
+    _limit = 100
 
     def __init__(self, *args, **kwargs) -> None:
         """Initialise the F1 stream."""
