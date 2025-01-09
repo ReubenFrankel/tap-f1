@@ -7,8 +7,7 @@ from singer_sdk.testing import get_tap_test_class
 from tap_f1.tap import TapF1
 
 SAMPLE_CONFIG = {
-    # latest GP with a sprint race: https://www.formula1.com/en/racing/2023/Brazil.html
-    "start_date": date(2023, 11, 5).isoformat(),
+    "start_date": date(2024, 1, 1).isoformat(),
 }
 
 
