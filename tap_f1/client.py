@@ -3,6 +3,7 @@
 from datetime import date, timedelta
 
 from requests_cache import CachedSession
+from singer_sdk.exceptions import ConfigValidationError
 from singer_sdk.streams import RESTStream
 from typing_extensions import override
 
@@ -41,4 +42,14 @@ class F1Stream(RESTStream):
     def get_starting_date(self, context):
         """Get starting replication date."""
         start_value = self.get_starting_replication_key_value(context)
-        return date.fromisoformat(start_value)
+        start_date = date.fromisoformat(start_value)
+        end_date = date.fromisoformat(self.config["end_date"])
+
+        if start_date > end_date:
+            msg = (
+                "Start date cannot be greater than end date: "
+                f"{start_date} > {end_date}"
+            )
+            raise ConfigValidationError(msg)
+
+        return start_date
