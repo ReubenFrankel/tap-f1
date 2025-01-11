@@ -1,6 +1,6 @@
 """REST client handling, including F1Stream base class."""
 
-from datetime import timedelta
+from datetime import date, timedelta
 
 from requests_cache import CachedSession
 from singer_sdk.streams import RESTStream
@@ -37,3 +37,8 @@ class F1Stream(RESTStream):
             params["offset"] = next_page_token
 
         return params
+
+    def get_starting_date(self, context):
+        """Get starting replication date."""
+        start_value = self.get_starting_replication_key_value(context)
+        return date.fromisoformat(start_value)

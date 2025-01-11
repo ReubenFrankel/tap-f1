@@ -39,8 +39,7 @@ class SeasonsStream(F1Stream):
 
     @override
     def get_child_context(self, record, context):
-        start_value = self.get_starting_replication_key_value(context)
-        start_year = date.fromisoformat(start_value).year
+        start_year = self.get_starting_date(context).year
         record_year = int(record["season"])
         end_year = date.fromisoformat(self.config["end_date"]).year
 
@@ -188,8 +187,7 @@ class RacesStream(F1Stream):
 
     @override
     def get_child_context(self, record, context):
-        start_value = self.get_starting_replication_key_value(context)
-        start_date = date.fromisoformat(start_value)
+        start_date = self.get_starting_date(context)
         record_date = date.fromisoformat(record["date"])
         end_date = date.fromisoformat(self.config["end_date"])
 
