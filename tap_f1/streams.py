@@ -41,9 +41,8 @@ class SeasonsStream(F1Stream):
     def get_child_context(self, record, context):
         start_year = self.get_starting_date(context).year
         record_year = int(record["season"])
-        end_year = date.fromisoformat(self.config["end_date"]).year
 
-        if start_year <= record_year <= end_year:
+        if start_year <= record_year <= self.end_date.year:
             return {"season": record["season"]}
 
         return None
@@ -189,9 +188,8 @@ class RacesStream(F1Stream):
     def get_child_context(self, record, context):
         start_date = self.get_starting_date(context)
         record_date = date.fromisoformat(record["date"])
-        end_date = date.fromisoformat(self.config["end_date"])
 
-        if start_date <= record_date <= end_date:
+        if start_date <= record_date <= self.end_date:
             return {
                 "season": record["season"],
                 "round": record["round"],

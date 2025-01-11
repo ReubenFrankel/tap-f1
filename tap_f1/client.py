@@ -1,6 +1,7 @@
 """REST client handling, including F1Stream base class."""
 
 from datetime import date, timedelta
+from functools import cached_property
 
 from requests_cache import CachedSession
 from singer_sdk.exceptions import ConfigValidationError
@@ -39,16 +40,20 @@ class F1Stream(RESTStream):
 
         return params
 
+    @cached_property
+    def end_date(self):
+        """Get end date."""
+        return date.fromisoformat(self.config["end_date"])
+
     def get_starting_date(self, context):
         """Get starting replication date."""
         start_value = self.get_starting_replication_key_value(context)
         start_date = date.fromisoformat(start_value)
-        end_date = date.fromisoformat(self.config["end_date"])
 
-        if start_date > end_date:
+        if start_date > self.end_date:
             msg = (
                 "Start date cannot be greater than end date: "
-                f"{start_date} > {end_date}"
+                f"{start_date} > {self.end_date}"
             )
             raise ConfigValidationError(msg)
 
