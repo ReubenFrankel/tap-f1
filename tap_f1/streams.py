@@ -39,12 +39,15 @@ class SeasonsStream(F1Stream):
 
     @override
     def get_child_context(self, record, context):
-        start_date = date.fromisoformat(self.config["start_date"])
+        start_value = self.get_starting_replication_key_value(context)
+        start_year = date.fromisoformat(start_value).year
+        record_year = int(record["season"])
+        end_year = date.fromisoformat(self.config["end_date"]).year
 
-        if start_date.year > int(record["season"]):
-            return None
+        if start_year <= record_year <= end_year:
+            return {"season": record["season"]}
 
-        return {"season": record["season"]}
+        return None
 
 
 class CircuitsStream(F1Stream):
@@ -185,16 +188,18 @@ class RacesStream(F1Stream):
 
     @override
     def get_child_context(self, record, context):
-        value = self.get_starting_replication_key_value(context)
-        start_date = date.fromisoformat(value)
+        start_value = self.get_starting_replication_key_value(context)
+        start_date = date.fromisoformat(start_value)
+        record_date = date.fromisoformat(record["date"])
+        end_date = date.fromisoformat(self.config["end_date"])
 
-        if start_date > date.fromisoformat(record["date"]):
-            return None
+        if start_date <= record_date <= end_date:
+            return {
+                "season": record["season"],
+                "round": record["round"],
+            }
 
-        return {
-            "season": record["season"],
-            "round": record["round"],
-        }
+        return None
 
 
 class QualifyingResultsStream(F1Stream):

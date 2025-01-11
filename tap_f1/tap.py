@@ -35,6 +35,11 @@ class TapF1(Tap):
             th.DateType,
             default=date(datetime.now(tz=timezone.utc).year, 1, 1).isoformat(),
         ),
+        th.Property(
+            "end_date",
+            th.DateType,
+            default=datetime.now(tz=timezone.utc).date().isoformat(),
+        ),
     ).to_dict()
 
     @override
