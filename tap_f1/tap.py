@@ -33,11 +33,13 @@ class TapF1(Tap):
         th.Property(
             "start_date",
             th.DateType,
+            description="Date in ISO 8601 format to get data from (inclusive)",
             default=date(datetime.now(tz=timezone.utc).year, 1, 1).isoformat(),
         ),
         th.Property(
             "end_date",
             th.DateType,
+            description="Date in ISO 8601 format to get data up to (inclusive)",
             default=datetime.now(tz=timezone.utc).date().isoformat(),
         ),
     ).to_dict()
