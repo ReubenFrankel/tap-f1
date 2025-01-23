@@ -39,8 +39,7 @@ ignore = [
 ]
 select = ["ALL"]
 src = ["tap_f1"]
-target-version = "py37"
-
+target-version = "py39"
 
 [tool.ruff.flake8-annotations]
 allow-star-arg-any = true
