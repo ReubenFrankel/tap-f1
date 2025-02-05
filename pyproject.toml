@@ -1,28 +1,36 @@
-[tool.poetry]
+[project]
 name = "tap-f1"
 version = "0.0.1"
 description = "`tap-f1` is a Singer tap for F1, built with the Meltano Singer SDK."
+authors = [{ name = "Reuben Frankel", email = "reubenfrankel@gmail.com" }]
+requires-python = "~=3.9"
 readme = "README.md"
-authors = ["Reuben Frankel <reubenfrankel@gmail.com>"]
+license = "Apache-2.0"
 keywords = [
     "ELT",
     "F1",
 ]
-license = "Apache-2.0"
+dependencies = [
+    "singer-sdk~=0.44.2",
+    "requests~=2.32.3",
+    "requests-cache>=1.2.1,<2",
+]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-singer-sdk = { version="~=0.44.2" }
-fs-s3fs = { version = "~=1.1.1", optional = true }
-requests = "~=2.32.3"
-requests-cache = "^1.2.1"
+[project.optional-dependencies]
+s3 = ["fs-s3fs~=1.1.1"]
 
-[tool.poetry.group.dev.dependencies]
-pytest = ">=7.4.0"
-singer-sdk = { version="~=0.44.2", extras = ["testing"] }
+[project.scripts]
+tap-f1 = "tap_f1.tap:TapF1.cli"
 
-[tool.poetry.extras]
-s3 = ["fs-s3fs"]
+[dependency-groups]
+dev = [
+    "pytest>=7.4.0",
+    "singer-sdk[testing]~=0.44.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.mypy]
 python_version = "3.9"
@@ -49,11 +57,3 @@ known-first-party = ["tap_f1"]
 
 [tool.ruff.pydocstyle]
 convention = "google"
-
-[build-system]
-requires = ["poetry-core>=1.0.8"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-# CLI declaration
-tap-f1 = 'tap_f1.tap:TapF1.cli'
