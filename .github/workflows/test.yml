@@ -18,7 +18,8 @@ jobs:
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
     strategy:
-      fail-fast: false
+      fail-fast: true
+      max-parallel: 1
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
     steps:
