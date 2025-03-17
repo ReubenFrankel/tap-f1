@@ -19,6 +19,7 @@ requests-cache = "^1.2.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=7.4.0"
+pytest-github-actions-annotate-failures = ">=0.3"
 singer-sdk = { version="~=0.44.3", extras = ["testing"] }
 
 [tool.poetry.extras]
