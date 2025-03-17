@@ -7,7 +7,7 @@ from singer_sdk.testing import get_tap_test_class
 from tap_f1.tap import TapF1
 
 SAMPLE_CONFIG = {
-    "start_date": date(2024, 1, 1).isoformat(),
+    "start_date": date(2025, 1, 1).isoformat(),
 }
 
 
