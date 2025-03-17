@@ -441,7 +441,7 @@ class DriverStandingsStream(F1Stream):
 
     parent_stream_type = RacesStream
     name = "driver_standings"
-    primary_keys = ("season", "round", "driverId", "position")
+    primary_keys = ("season", "round", "driverId")
     path = "/{season}/{round}/driverStandings.json"
     records_jsonpath = "MRData.StandingsTable.StandingsLists[*].DriverStandings[*]"
 
