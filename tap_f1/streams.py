@@ -244,7 +244,7 @@ class SprintResultsStream(F1Stream):
     """Define sprint results stream."""
 
     parent_stream_type = RacesStream
-    name = "sprints_results"
+    name = "sprint_results"
     primary_keys = ("season", "round", "number")
     path = "/{season}/{round}/sprint.json"
     records_jsonpath = "MRData.RaceTable.Races[*].SprintResults[*]"
