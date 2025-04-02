@@ -39,7 +39,17 @@ class SeasonsStream(F1Stream):
 
     @override
     def get_child_context(self, record, context):
-        start_year = self.get_starting_date(context).year
+        start_value = self.get_starting_replication_key_value(context)
+
+        # start value stored in state is the season year only (e.g. 2025), rather than
+        # an ISO 8601-compliant date as expected from inital config
+        value_from_state = "replication_key_value" in self.stream_state
+        start_year = (
+            int(start_value)
+            if value_from_state
+            else date.fromisoformat(start_value).year
+        )
+
         record_year = int(record["season"])
 
         if start_year <= record_year <= self.end_date.year:
