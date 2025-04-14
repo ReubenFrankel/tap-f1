@@ -12,7 +12,7 @@ license = "Apache-2.0"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-singer-sdk = { version="~=0.45.5" }
+singer-sdk = { version="~=0.45.6" }
 fs-s3fs = { version = "~=1.1.1", optional = true }
 requests = "~=2.32.3"
 requests-cache = "^1.2.1"
@@ -20,7 +20,7 @@ requests-cache = "^1.2.1"
 [tool.poetry.group.dev.dependencies]
 pytest = ">=7.4.0"
 pytest-github-actions-annotate-failures = ">=0.3"
-singer-sdk = { version="~=0.45.5", extras = ["testing"] }
+singer-sdk = { version="~=0.45.6", extras = ["testing"] }
 
 [tool.poetry.extras]
 s3 = ["fs-s3fs"]
