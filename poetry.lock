@@ -1205,14 +1205,14 @@ files = [
 
 [[package]]
 name = "singer-sdk"
-version = "0.45.10"
+version = "0.45.11"
 description = "A framework for building Singer taps"
 optional = false
 python-versions = ">=3.9"
 groups = ["main", "dev"]
 files = [
-    {file = "singer_sdk-0.45.10-py3-none-any.whl", hash = "sha256:50bf84d3dd01784798c01d24183a1b9979b55c5b40a00da9fa8c905f9e0400cb"},
-    {file = "singer_sdk-0.45.10.tar.gz", hash = "sha256:fc697badd0c43e0edf59f797bc25e711ab334879c68b235f72fd82dd41f2e724"},
+    {file = "singer_sdk-0.45.11-py3-none-any.whl", hash = "sha256:8c47823642859817ccbbc9a983b9f704d553ecefc9bbfebcd9df504778439b96"},
+    {file = "singer_sdk-0.45.11.tar.gz", hash = "sha256:9188f0a61038e53211291d7497aad1959e6dbef81669d97712cdbc1e0675f2e6"},
 ]
 
 [package.dependencies]
@@ -1221,7 +1221,7 @@ backports-datetime-fromisoformat = {version = ">=2.0.1", markers = "python_versi
 click = ">=8.0,<9.0"
 fs = ">=2.4.16"
 fsspec = ">=2024.9.0"
-importlib-metadata = {version = "<9.0.0", markers = "python_version < \"3.12\""}
+importlib-metadata = {version = ">=5.0", markers = "python_version < \"3.12\""}
 importlib-resources = {version = ">=5.12.0,<6.2.0 || >6.2.0,<6.3.0 || >6.3.0,<6.3.1 || >6.3.1", markers = "python_version < \"3.10\""}
 inflection = ">=0.5.1"
 joblib = ">=1.3.0"
@@ -1490,4 +1490,4 @@ s3 = ["fs-s3fs"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.9"
-content-hash = "da26da1ac50d0ec1d23a45b5db5e097ca9c56bbbd3b48d00a25fb710e12043d7"
+content-hash = "d09e486d79f283d1a558428e8738ad0d5100a8034ffee366a6137ba70394284a"
