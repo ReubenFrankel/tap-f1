@@ -16,6 +16,7 @@ TestTapF1 = get_tap_test_class(
     tap_class=TapF1,
     config=SAMPLE_CONFIG,
     suite_config=SuiteConfig(
-        ignore_no_records_for_streams=[streams.SprintResultsStream.name]
+        ignore_no_records_for_streams=[streams.SprintResultsStream.name],
+        max_records_limit=None,
     ),
 )
