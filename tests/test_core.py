@@ -1,13 +1,15 @@
 """Tests standard tap features using the built-in SDK tests library."""
 
-from datetime import date
+from datetime import datetime, timedelta, timezone
 
 from singer_sdk.testing import SuiteConfig, get_tap_test_class
 
 from tap_f1.tap import TapF1, streams
 
 SAMPLE_CONFIG = {
-    "start_date": date(2025, 1, 1).isoformat(),
+    "start_date": (
+        (datetime.now(tz=timezone.utc) - timedelta(weeks=16)).date().isoformat()
+    )
 }
 
 
