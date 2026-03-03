@@ -4,7 +4,7 @@
 
 Built with the [Meltano Tap SDK](https://sdk.meltano.com) for Singer Taps.
 
-[![Python version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FReubenFrankel%2Ftap-f1%2Fmain%2Fpyproject.toml&query=tool.poetry.dependencies.python&label=python)](https://docs.python.org/3/)
+[![Python version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FReubenFrankel%2Ftap-f1%2Fmain%2Fpyproject.toml&query=project.requires-python&label=python)](https://docs.python.org/3/)
 [![Singer SDK version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FReubenFrankel%2Ftap-f1%2Fmain%2Fpyproject.toml&query=tool.poetry.dependencies%5B%22singer-sdk%22%5D.version&label=singer-sdk)](https://sdk.meltano.com/en/latest/)
 [![License](https://img.shields.io/github/license/ReubenFrankel/tap-f1)](https://github.com/ReubenFrankel/tap-f1/blob/main/LICENSE)
 [![Code style](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fastral-sh%2Fruff%2Fmain%2Fassets%2Fbadge%2Fformat.json)](https://docs.astral.sh/ruff/)
