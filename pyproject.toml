@@ -3,7 +3,7 @@ name = "tap-f1"
 version = "0.0.1"
 description = "`tap-f1` is a Singer tap for F1, built with the Meltano Singer SDK."
 authors = [{ name = "Reuben Frankel", email = "reubenfrankel@gmail.com" }]
-requires-python = "~=3.9"
+requires-python = ">=3.9"
 readme = "README.md"
 license = "Apache-2.0"
 keywords = [
