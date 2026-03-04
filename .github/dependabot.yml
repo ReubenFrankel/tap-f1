@@ -5,22 +5,28 @@
 
 version: 2
 updates:
-  - package-ecosystem: pip
+  - package-ecosystem: uv
     directory: "/"
     schedule:
       interval: weekly
     commit-message:
       prefix: "chore(deps): "
       prefix-development: "chore(deps-dev): "
-  - package-ecosystem: pip
-    directory: "/.github/workflows"
-    schedule:
-      interval: weekly
-    commit-message:
-      prefix: "ci: "
+    groups:
+      development-dependencies:
+        dependency-type: development
+      runtime-dependencies:
+        dependency-type: production
+        update-types:
+          - "patch"
+    versioning-strategy: increase-if-necessary
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
     commit-message:
       prefix: "ci: "
+    groups:
+      actions:
+        patterns:
+          - "*"
