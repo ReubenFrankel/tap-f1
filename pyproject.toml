@@ -26,7 +26,7 @@ tap-f1 = "tap_f1.tap:TapF1.cli"
 dev = [
     "pytest>=7.4.0",
     "pytest-github-actions-annotate-failures>=0.3",
-    "singer-sdk[testing]~=0.48.1",
+    "singer-sdk[testing]",
 ]
 
 [build-system]
