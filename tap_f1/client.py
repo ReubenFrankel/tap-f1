@@ -17,10 +17,10 @@ class F1Stream(RESTStream):
     url_base = "https://api.jolpi.ca/ergast/f1"
     _limit = 100
 
-    def __init__(self, *args, **kwargs) -> None:
-        """Initialise the F1 stream."""
-        super().__init__(*args, **kwargs)
-        self._requests_session = CachedSession(
+    @override
+    @cached_property
+    def requests_session(self):
+        return CachedSession(
             self.tap_name,
             use_cache_dir=True,
             expire_after=timedelta(days=1),
