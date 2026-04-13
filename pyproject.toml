@@ -24,7 +24,7 @@ tap-f1 = "tap_f1.tap:TapF1.cli"
 
 [dependency-groups]
 dev = [
-    "pytest>=7.4.0",
+    "pytest>=9.0.3",
     "pytest-github-actions-annotate-failures>=0.3",
     "singer-sdk[testing]",
 ]
