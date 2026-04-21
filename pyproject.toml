@@ -11,7 +11,7 @@ keywords = [
     "F1",
 ]
 dependencies = [
-    "singer-sdk~=0.53.5",
+    "singer-sdk~=0.53.7",
     "requests~=2.33.0",
     "requests-cache~=1.3.1",
 ]
