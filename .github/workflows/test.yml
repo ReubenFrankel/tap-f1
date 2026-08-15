@@ -6,9 +6,19 @@ name: Test tap-f1
 on:
   push:
     branches: [main]
-    paths-ignore: [README.md]
+    paths:
+    - .github/workflows/test.yml
+    - tap_f1/**
+    - tests/**
+    - pyproject.toml
+    - uv.lock
   pull_request:
-    paths-ignore: [README.md]
+    paths:
+    - .github/workflows/test.yml
+    - tap_f1/**
+    - tests/**
+    - pyproject.toml
+    - uv.lock
   schedule:
   - cron: 0 9 * * *
   workflow_dispatch:
