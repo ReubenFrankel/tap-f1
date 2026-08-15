@@ -22,11 +22,18 @@ class F1Stream(RESTStream):
     @override
     @cached_property
     def requests_session(self):
-        return CachedSession(
+        session = CachedSession(
             self.tap_name,
             use_cache_dir=True,
             expire_after=timedelta(days=1),
         )
+        # Pin Accept-Encoding so the Vary-based cache key stays stable across Python
+        # versions. Python 3.14 bundles zstd in the standard library, so urllib3
+        # advertises "gzip,deflate,zstd" instead of "gzip,deflate". Because the API
+        # sends "Vary: Accept-Encoding", that mismatch makes 3.14 miss the shared
+        # cache written by 3.10-3.13 and refetch every response from the upstream API.
+        session.headers["Accept-Encoding"] = "gzip, deflate"
+        return session
 
     @override
     def get_new_paginator(self):
