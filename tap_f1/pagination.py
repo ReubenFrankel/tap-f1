@@ -2,11 +2,11 @@
 
 """Pagination classes for tap-f1."""
 
-from singer_sdk.pagination import BaseOffsetPaginator
+from singer_sdk.pagination import OffsetPaginator
 from typing_extensions import override
 
 
-class F1Paginator(BaseOffsetPaginator):
+class F1Paginator(OffsetPaginator):
     """Base API paginator."""
 
     @override
