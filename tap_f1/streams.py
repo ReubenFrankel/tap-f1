@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Reuben Frankel.
+
 """Stream type classes for tap-f1."""
 
 from datetime import date
