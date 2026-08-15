@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Reuben Frankel.
+
 """F1 tap class."""
 
 from datetime import date, datetime, timezone

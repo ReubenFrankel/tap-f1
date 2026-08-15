@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Reuben Frankel.
+
 """Pagination classes for tap-f1."""
 
 from singer_sdk.pagination import BaseOffsetPaginator

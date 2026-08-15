@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Reuben Frankel.
+
 """Tests standard tap features using the built-in SDK tests library."""
 
 from datetime import datetime, timedelta, timezone

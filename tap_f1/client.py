@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Reuben Frankel.
+
 """REST client handling, including F1Stream base class."""
 
 from datetime import date, timedelta

@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Reuben Frankel.
+
 """F1 entry point."""
 
 from __future__ import annotations
