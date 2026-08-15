@@ -28,6 +28,18 @@ class F1Stream(RESTStream):
             expire_after=timedelta(days=1),
         )
 
+    @property
+    @override
+    def http_headers(self) -> dict:
+        headers = super().http_headers
+        # Pin Accept-Encoding so the Vary-based requests-cache key stays stable across
+        # Python versions. Python 3.14 bundles zstd in the standard library, so urllib3
+        # otherwise advertises "gzip,deflate,zstd" instead of "gzip,deflate"; with the
+        # API's "Vary: Accept-Encoding", that makes 3.14 miss the shared cache written
+        # by 3.10-3.13 and refetch every response from the upstream API.
+        headers["Accept-Encoding"] = "gzip, deflate"
+        return headers
+
     @override
     def get_new_paginator(self):
         return F1Paginator(0, self._limit)
