@@ -46,8 +46,7 @@ class F1Stream(RESTStream):
 
     @override
     def get_url_params(self, context, next_page_token):
-        params = super().get_url_params(context, next_page_token)
-        params["limit"] = self._limit
+        params = {"limit": self._limit}
 
         if next_page_token:
             params["offset"] = next_page_token
@@ -62,7 +61,7 @@ class F1Stream(RESTStream):
     def get_starting_date(self, context):
         """Get starting replication date."""
         start_value = self.get_starting_replication_key_value(context)
-        start_date = date.fromisoformat(start_value)
+        start_date = date.fromisoformat(start_value)  # ty: ignore[invalid-argument-type]
 
         if start_date > self.end_date:
             msg = f"Start date cannot be greater than end date: {start_date} > {self.end_date}"
