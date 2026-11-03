@@ -8,9 +8,7 @@ from singer_sdk.testing import SuiteConfig, get_tap_test_class
 
 from tap_f1.tap import TapF1, streams
 
-SAMPLE_CONFIG = {
-    "start_date": (datetime.now(tz=UTC) - timedelta(weeks=16)).date().isoformat()
-}
+SAMPLE_CONFIG = {"start_date": (datetime.now(tz=UTC) - timedelta(weeks=16)).date().isoformat()}
 
 
 # Run standard built-in tap tests from the SDK:

@@ -1,7 +1,7 @@
-version: 1
 send_anonymous_usage_stats: true
 project_id: tap-f1
 default_environment: test
+requires_meltano: ">=4.0"
 environments:
 - name: test
 plugins:
@@ -15,6 +15,7 @@ plugins:
     - discover
     - about
     - stream-maps
+    - structured-logging
     settings:
     - name: start_date
       kind: date_iso8601

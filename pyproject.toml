@@ -1,15 +1,32 @@
+[build-system]
+requires = [
+    "hatchling>=1,<2",
+    "hatch-vcs>=0.5",
+]
+build-backend = "hatchling.build"
+
 [project]
 name = "tap-f1"
-version = "0.0.1"
+dynamic = ["version"]
 description = "`tap-f1` is a Singer tap for F1, built with the Meltano Singer SDK."
-authors = [{ name = "Reuben Frankel", email = "reubenfrankel@gmail.com" }]
-requires-python = ">=3.11"
 readme = "README.md"
-license = "Apache-2.0"
+authors = [{ name = "Reuben Frankel", email = "reubenfrankel@gmail.com" }]
 keywords = [
     "ELT",
     "F1",
 ]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
+]
+license = "Apache-2.0"
+license-files = [ "LICENSE" ]
+requires-python = ">=3.11"
 dependencies = [
     "singer-sdk~=0.54.5",
     "requests~=2.34.2",
@@ -17,44 +34,114 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-s3 = ["fs-s3fs~=1.1.1"]
+s3 = [
+    "s3fs>=2026.1.0",
+]
 
 [project.scripts]
 tap-f1 = "tap_f1.tap:TapF1.cli"
 
 [dependency-groups]
 dev = [
+    { include-group = "test" },
+]
+test = [
     "pytest>=9.1.1",
     "pytest-github-actions-annotate-failures>=0.4.2",
     "singer-sdk[testing]",
 ]
+typing = [
+    "mypy>=2.1",
+    "ty>=0.0.41",
+]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+[tool.hatch.version]
+fallback-version = "0.1.0.dev0"
+source = "vcs"
 
 [tool.mypy]
-python_version = "3.11"
+enable_error_code = [
+    "ignore-without-code",
+    "redundant-expr",
+    "truthy-bool",
+]
+warn_redundant_casts = true
+warn_unreachable = true
 warn_unused_configs = true
+warn_unused_ignores = true
+
+[tool.ty.rules]
+missing-override-decorator = "error"
+unused-type-ignore-comment = "ignore"
+
+[tool.pytest]
+addopts = [
+    "-ra",
+]
+filterwarnings = [
+    "error",
+    "once:No records were available to test:UserWarning",
+    "once:Fields in transformed catalog but not in records:UserWarning",
+    "once:Python 3.* its end of life:FutureWarning",
+]
+log_level = "INFO"
+minversion = "9"
+strict = true
+testpaths = [
+    "tests",
+]
 
 [tool.ruff]
+line-length = 100
+required-version = ">=0.16.0"
+
+[tool.ruff.lint]
+future-annotations = true
 ignore = [
     "ANN001",  # missing-type-function-argument
     "ANN002",  # missing-type-args
     "ANN003",  # missing-type-kwargs
     "ANN201",  # missing-return-type-undocumented-public-function
     "COM812",  # missing-trailing-comma
-    "ISC001",  # single-line-implicit-string-concatenation
 ]
 select = ["ALL"]
-src = ["tap_f1"]
-target-version = "py311"
 
-[tool.ruff.flake8-annotations]
+[tool.ruff.lint.flake8-annotations]
 allow-star-arg-any = true
 
-[tool.ruff.isort]
-known-first-party = ["tap_f1"]
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101",  # assert
+]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
+
+[tool.tox]
+requires = [
+    "tox>=4.53",
+    "tox-uv>=1.35",
+]
+env_list = [
+    "typing",
+    { prefix = "3.", start = 11 },
+]
+
+[tool.tox.env_run_base]
+description = "run tests on Python {env_name}"
+runner = "uv-venv-lock-runner"
+pass_env = [
+    "CI",
+    "GITHUB_*",
+    "TAP_F1_*",
+]
+dependency_groups = [ "test" ]
+commands = [ [ "pytest", { replace = "posargs", default = [ "tests" ], extend = true } ] ]
+
+[tool.tox.env.typing]
+description = "type checks"
+dependency_groups = [ "test", "typing" ]
+commands = [
+    [ "mypy", { replace = "posargs", default = [ "tap_f1", "tests" ], extend = true } ],
+    [ "ty", "check", { replace = "posargs", default = [ "tap_f1", "tests" ], extend = true } ],
+]
