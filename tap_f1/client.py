@@ -65,10 +65,7 @@ class F1Stream(RESTStream):
         start_date = date.fromisoformat(start_value)
 
         if start_date > self.end_date:
-            msg = (
-                "Start date cannot be greater than end date: "
-                f"{start_date} > {self.end_date}"
-            )
+            msg = f"Start date cannot be greater than end date: {start_date} > {self.end_date}"
             raise ConfigValidationError(msg)
 
         return start_date

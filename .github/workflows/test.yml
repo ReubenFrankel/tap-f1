@@ -23,36 +23,70 @@ on:
   - cron: 0 9 * * *
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  FORCE_COLOR: 1
+
+permissions:
+  contents: read  # read repository contents
+
 jobs:
-  pytest:
+  build-package:
+    name: Build & verify package
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    outputs:
+      supported-python-versions: ${{ steps.baipp.outputs.supported_python_classifiers_json_array }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: hynek/build-and-inspect-python-package@67230f7b8410ae0052b39c1efc89d89fff43ff10 # v3.0.2
+        id: baipp
+
+  pytest:
+    name: Test
+    needs: [build-package]
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       max-parallel: 1
       matrix:
-        python-version: ["3.11", "3.12", "3.13", "3.14"]
+        python-version: ${{ fromJson(needs.build-package.outputs.supported-python-versions) }}
     steps:
-    - uses: actions/checkout@v7
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Setup uv
+      uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install uv
-      uses: astral-sh/setup-uv@v7
-    - name: Install dependencies
-      env:
-        UV_PYTHON: ${{ matrix.python-version }}
-      run: |
-        uv sync
     - name: Cache HTTP responses
-      uses: actions/cache@v6
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: ~/.cache/tap-f1.sqlite
         key: http-responses-${{ github.run_id }}
         restore-keys: |
           http-responses-
-    - name: Test with pytest
-      run: |
-        uv run pytest
+    - name: Run Tox
+      run: | # zizmor: ignore[template-injection]
+        uvx --with=tox-uv tox -e ${{ matrix.python-version }}
+
+  typing:
+    name: Type Checking
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Setup uv
+      uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+    - name: Run Tox
+      run: >
+        uvx
+        --managed-python
+        --with=tox-uv
+        tox -e typing
