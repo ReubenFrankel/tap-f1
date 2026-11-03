@@ -83,7 +83,7 @@ Follow these instructions to contribute to this project.
 
 Prerequisites:
 
-- Python 3.10+
+- Python 3.11+
 - [uv](https://docs.astral.sh/uv/)
 
 ```bash

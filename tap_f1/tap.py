@@ -2,7 +2,7 @@
 
 """F1 tap class."""
 
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 
 import singer_sdk.typing as th
 from singer_sdk import Tap
@@ -36,13 +36,13 @@ class TapF1(Tap):
             "start_date",
             th.DateType,
             description="Date in ISO 8601 format to get data from (inclusive)",
-            default=date(datetime.now(tz=timezone.utc).year, 1, 1).isoformat(),
+            default=date(datetime.now(tz=UTC).year, 1, 1).isoformat(),
         ),
         th.Property(
             "end_date",
             th.DateType,
             description="Date in ISO 8601 format to get data up to (inclusive)",
-            default=datetime.now(tz=timezone.utc).date().isoformat(),
+            default=datetime.now(tz=UTC).date().isoformat(),
         ),
     ).to_dict()
 
